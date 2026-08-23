@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Builds the presentation for DS Project 2 (Hostel Student Management System).
+Builds the 8-slide presentation for DS Project 2 (Hostel Student Management System).
 Run:  python3 docs/make_ppt.py     ->  docs/DS_Project_2_Presentation.pptx
 """
 
@@ -172,7 +172,7 @@ def footer(slide, n):
 
 
 # =====================================================================
-# 1. TITLE
+# 1 — TITLE
 # =====================================================================
 s = blank()
 box(s, 0, 0, W, H, fill=NAVY)
@@ -193,77 +193,43 @@ text(s, Inches(1.0), Inches(5.05), Inches(11.3), Inches(1.2),
      size=15, color=RGBColor(0xA9, 0xBE, 0xE4), space=4)
 
 # =====================================================================
-# 2. OBJECTIVE
+# 2 — THE PROJECT AND WHY THESE STRUCTURES
 # =====================================================================
-s = blank(); header(s, "What the Project Does", "01")
-text(s, Inches(0.55), Inches(1.32), Inches(12.2), Inches(0.6),
+s = blank(); header(s, "The Project and Its Data Structures", "01")
+text(s, Inches(0.55), Inches(1.22), Inches(12.2), Inches(0.5),
      [[("Goal: ", True, NAVY),
-       ("manage hostel student records while implementing the basic data "
-        "structures by hand, instead of using ready-made containers from the "
-        "C++ standard library.", False, DARK)]], size=17, line=1.25)
+       ("manage hostel student records — add, display, search, delete, undo a "
+        "delete and sort by name — while implementing the data structures ", False, DARK),
+       ("by hand", True, NAVY),
+       (" instead of using ready-made containers.", False, DARK)]], size=16.5, line=1.22)
 
-box(s, Inches(0.55), Inches(2.35), Inches(5.9), Inches(3.5), fill=LIGHT, line=BORDER)
-text(s, Inches(0.85), Inches(2.58), Inches(5.3), Inches(0.4),
-     "FEATURES", size=13, color=BLUE, bold=True)
-bullets(s, Inches(0.85), Inches(3.05), Inches(5.3), [
-    ("Add", " a student record"),
-    ("Display", " all students"),
-    ("Search", " by name, course or roll number"),
-    ("Delete", " a student"),
-    ("Undo", " the last deletion"),
-    ("Sort", " alphabetically by name"),
-], size=15.5, gap=7)
-
-box(s, Inches(6.85), Inches(2.35), Inches(5.9), Inches(3.5), fill=WHITE, line=BLUE)
-text(s, Inches(7.15), Inches(2.58), Inches(5.3), Inches(0.4),
-     "ONE RECORD", size=13, color=BLUE, bold=True)
-code(s, Inches(7.15), Inches(3.05), Inches(5.3), [
-    "struct Student {",
-    "    int    roll;",
-    "    string name;      // STRING",
-    "    string course;    // STRING",
-    "    int    room;",
-    "};",
-], size=15)
-text(s, Inches(7.15), Inches(5.05), Inches(5.3), Inches(0.7),
-     "100 such records are kept in one array, and deleted ones are kept on a stack.",
-     size=14, color=GREY, line=1.2)
-footer(s, 2)
-
-# =====================================================================
-# 3. WHY THESE THREE STRUCTURES
-# =====================================================================
-s = blank(); header(s, "Why These Three Structures", "02")
-text(s, Inches(0.55), Inches(1.3), Inches(12.2), Inches(0.4),
-     "Each structure was chosen for a reason — not just to tick a requirement.",
-     size=16, color=GREY)
-table(s, Inches(0.55), Inches(1.85), Inches(12.2), [
-    ["Structure", "Where it is used", "Why this one"],
+table(s, Inches(0.55), Inches(2.15), Inches(12.2), [
+    ["Structure", "Where it is used", "Why this one was chosen"],
     ["ARRAY",
-     "students[100] holds every record, with count_ tracking how many are used",
+     "students[100] holds every record, with count_ tracking how many are in use",
      "Records need indexed access and ordered display, and the maximum is known in advance"],
     ["STACK",
-     "Deleted records are pushed here; Undo pops the top one back",
+     "Deleted records are pushed here; Undo pops the top one back into the array",
      "Undo must reverse the most recent action first — that is exactly LIFO"],
     ["STRING",
-     "Name and course fields; case-insensitive search and alphabetical sort",
-     "Text data needs character-level comparison, which std::string supports directly"],
-], [1.6, 5.0, 5.6], size=14.5, rh=0.92)
+     "Name and course fields; case-insensitive search and alphabetical sorting",
+     "Text needs character-level comparison, which std::string supports directly"],
+], [1.6, 5.0, 5.6], size=14.5, rh=0.9)
 
-box(s, Inches(0.55), Inches(5.72), Inches(12.2), Inches(1.05), fill=RGBColor(0xEC, 0xFD, 0xF3), line=GREEN)
-text(s, Inches(0.85), Inches(5.95), Inches(11.6), Inches(0.7),
+box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.88),
+    fill=RGBColor(0xEC, 0xFD, 0xF3), line=GREEN)
+text(s, Inches(0.85), Inches(6.18), Inches(11.6), Inches(0.6),
      [[("The key point: ", True, RGBColor(0x0F, 0x7A, 0x38)),
        ("the stack is not decoration. Undo has to reverse the ", False, DARK),
        ("most recent", True, DARK),
-       (" deletion first, which is Last In First Out. A queue would be wrong — "
-        "it would undo the ", False, DARK), ("oldest", True, DARK),
-       (" deletion first.", False, DARK)]], size=16, line=1.22)
-footer(s, 3)
+       (" deletion first. A queue would be wrong — it would undo the ", False, DARK),
+       ("oldest", True, DARK), (" one first.", False, DARK)]], size=16, line=1.2)
+footer(s, 2)
 
 # =====================================================================
-# 4. THE ARRAY
+# 3 — THE ARRAY
 # =====================================================================
-s = blank(); header(s, "The Array — Storing the Records", "03")
+s = blank(); header(s, "The Array — Storing the Records", "02")
 code(s, Inches(0.55), Inches(1.3), Inches(5.85), [
     "Student students[MAX];   // MAX = 100",
     "int count_ = 0;          // how many are used",
@@ -287,7 +253,7 @@ text(s, Inches(6.85), Inches(1.3), Inches(5.9), Inches(0.4),
      "HOW IT WORKS", size=13, color=BLUE, bold=True)
 bullets(s, Inches(6.85), Inches(1.78), Inches(5.9), [
     ("Insert ", "puts the record at index count_ and increments it — O(1), no shifting needed"),
-    ("count_ ", "is the logical size, kept separate from the array's physical capacity of 100"),
+    ("count_ ", "is the logical size, kept separate from the physical capacity of 100"),
     ("Two checks first: ", "the array must not be full, and the roll number must not already exist"),
     ("Search ", "walks index 0 to count_-1 — a linear search, O(n)"),
     ("findStudent() returns the index", ", not the record, because deletion needs to know where it is"),
@@ -298,12 +264,12 @@ code(s, Inches(7.05), Inches(5.65), Inches(5.5), [
     "for (int i = 0; i < count_; i++)      // linear search",
     "    if (students[i].roll == roll) return i;",
 ], size=12.5)
-footer(s, 4)
+footer(s, 3)
 
 # =====================================================================
-# 5. THE STACK
+# 4 — THE STACK
 # =====================================================================
-s = blank(); header(s, "The Stack — Remembering Deletions", "04")
+s = blank(); header(s, "The Stack — Remembering Deletions", "03")
 code(s, Inches(0.55), Inches(1.3), Inches(5.85), [
     "Student stack_[MAX];   // the stack",
     "int top_ = -1;         // -1 means empty",
@@ -337,12 +303,12 @@ bullets(s, Inches(6.85), Inches(3.75), Inches(5.9), [
     ("Both checked before ", "the array is touched, so memory outside it is never accessed"),
     ("top_ starts at -1 ", "because an empty stack has no valid top index; size is always top_ + 1"),
 ], size=15.5, gap=9)
-footer(s, 5)
+footer(s, 4)
 
 # =====================================================================
-# 6. STRINGS
+# 5 — STRINGS
 # =====================================================================
-s = blank(); header(s, "Strings — Searching and Sorting", "05")
+s = blank(); header(s, "Strings — Searching and Sorting", "04")
 
 text(s, Inches(0.55), Inches(1.3), Inches(5.85), Inches(0.4),
      "CASE-INSENSITIVE SEARCH", size=13, color=BLUE, bold=True)
@@ -359,8 +325,8 @@ code(s, Inches(0.55), Inches(1.75), Inches(5.85), [
     "         != string::npos;",
     "}",
 ], size=13.5)
-box(s, Inches(0.55), Inches(4.95), Inches(5.85), Inches(0.75), fill=LIGHT, line=BORDER)
-text(s, Inches(0.78), Inches(5.12), Inches(5.5), Inches(0.5),
+box(s, Inches(0.55), Inches(4.95), Inches(5.85), Inches(0.8), fill=LIGHT, line=BORDER)
+text(s, Inches(0.78), Inches(5.13), Inches(5.5), Inches(0.55),
      [[("This is why typing ", False, DARK), ("bca", True, NAVY),
        (" also finds ", False, DARK), ("BCA", True, NAVY),
        (". The stored data is never changed — only the copies used for comparison.", False, DARK)]],
@@ -380,31 +346,26 @@ code(s, Inches(6.9), Inches(1.75), Inches(5.85), [
     "   }",
     "}",
 ], size=13.5)
-box(s, Inches(6.9), Inches(4.72), Inches(5.85), Inches(0.98), fill=LIGHT, line=BORDER)
-text(s, Inches(7.13), Inches(4.9), Inches(5.5), Inches(0.7),
+box(s, Inches(6.9), Inches(4.72), Inches(5.85), Inches(1.03), fill=LIGHT, line=BORDER)
+text(s, Inches(7.13), Inches(4.9), Inches(5.5), Inches(0.75),
      [[("The ", False, DARK), (">", True, NAVY),
        (" operator on std::string compares ", False, DARK),
        ("lexicographically", True, NAVY),
        (" — character by character, like a dictionary. Nested loops make this ", False, DARK),
        ("O(n²)", True, NAVY), (".", False, DARK)]], size=14, line=1.2)
 
-text(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.5),
-     [[("Search also matches the roll number typed as text, using ", False, DARK),
-       ("to_string()", True, NAVY),
-       (" — so one search box covers name, course and roll.", False, DARK)]],
-     size=15, color=GREY)
-footer(s, 6)
+text(s, Inches(0.55), Inches(6.05), Inches(12.2), Inches(0.5),
+     [[("One search box covers all three fields: it also matches the roll number "
+        "typed as text, using ", False, DARK),
+       ("to_string()", True, NAVY), (".", False, DARK)]], size=15, color=GREY)
+footer(s, 5)
 
 # =====================================================================
-# 7. DELETE = the key slide
+# 6 — DELETE + UNDO  (the key slide)
 # =====================================================================
-s = blank(); header(s, "Deletion: Both Structures Working Together", "06")
-text(s, Inches(0.55), Inches(1.25), Inches(12.2), Inches(0.4),
-     [[("This is the most important function in the project — the array and the "
-        "stack are used in the ", False, DARK), ("same operation", True, NAVY),
-       (".", False, DARK)]], size=16.5)
+s = blank(); header(s, "Deletion and Undo — Both Structures Together", "05")
 
-code(s, Inches(0.55), Inches(1.85), Inches(6.4), [
+code(s, Inches(0.55), Inches(1.28), Inches(6.4), [
     "bool deleteStudent(int roll) {",
     "  int i = findStudent(roll);",
     "  if (i == -1) return false;   // not found",
@@ -416,375 +377,182 @@ code(s, Inches(0.55), Inches(1.85), Inches(6.4), [
     "  count_--;",
     "  return true;",
     "}",
-], size=14, accent=RED)
+], size=13.5, accent=RED)
 
-box(s, Inches(0.55), Inches(4.85), Inches(6.4), Inches(1.5), fill=RGBColor(0xFF, 0xF7, 0xE6), line=RGBColor(0xE0, 0xA8, 0x00))
-text(s, Inches(0.8), Inches(5.05), Inches(5.95), Inches(1.15),
-     [[("The order matters. ", True, RGBColor(0x8A, 0x5A, 0x00)),
-       ("The record is pushed onto the stack ", False, DARK),
-       ("before", True, DARK),
-       (" the shift overwrites it. Push after shifting would copy the wrong "
-        "student, and undo would restore garbage.", False, DARK)]], size=15.5, line=1.25)
-
-text(s, Inches(7.35), Inches(1.85), Inches(5.4), Inches(0.4),
-     "DELETING ROLL 102", size=13, color=BLUE, bold=True)
-box(s, Inches(7.35), Inches(2.3), Inches(5.4), Inches(4.05), fill=CODEBG)
-tb = s.shapes.add_textbox(Inches(7.55), Inches(2.48), Inches(5.05), Inches(3.7))
+box(s, Inches(0.55), Inches(4.28), Inches(6.4), Inches(2.55), fill=CODEBG)
+tb = s.shapes.add_textbox(Inches(0.75), Inches(4.44), Inches(6.05), Inches(2.25))
 tf = tb.text_frame; tf.word_wrap = False
 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-diagram = [
-    ("before:  [101][102][103][104]", CODEFG),
-    ("                |             ", CODEFG),
-    ("         count_ = 4           ", RGBColor(0x8A, 0x93, 0xA5)),
+for i, (ln, col) in enumerate([
+    ("DELETING ROLL 102", RGBColor(0x9F, 0xB6, 0xE8)),
     ("", CODEFG),
-    ("step 1   push a copy onto the stack", RGBColor(0x7E, 0xC9, 0x9B)),
-    ("", CODEFG),
-    ("shift:   [101][103][104][104]", CODEFG),
-    ("          move each one left  ", RGBColor(0x8A, 0x93, 0xA5)),
-    ("", CODEFG),
-    ("after:   [101][103][104]", CODEFG),
-    ("         count_ = 3           ", RGBColor(0x8A, 0x93, 0xA5)),
-    ("         last slot is ignored ", RGBColor(0x8A, 0x93, 0xA5)),
+    ("before:  [101][102][103][104]   count_ = 4", CODEFG),
+    ("                |", RGBColor(0x8A, 0x93, 0xA5)),
+    ("         push a copy onto the stack", RGBColor(0x7E, 0xC9, 0x9B)),
+    ("shift:   [101][103][104][104]   move each left", CODEFG),
+    ("after:   [101][103][104]        count_ = 3", CODEFG),
     ("", CODEFG),
     ("stack:   | 102 |  <-- top_", RGBColor(0xF0, 0xB4, 0x5C)),
-]
-for i, (ln, col) in enumerate(diagram):
+]):
     p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-    p.space_after = Pt(0); p.line_spacing = 1.18
+    p.space_after = Pt(1); p.line_spacing = 1.16
     r = p.add_run(); r.text = ln
-    r.font.size = Pt(14); r.font.name = MONO; r.font.color.rgb = col
-footer(s, 7)
+    r.font.size = Pt(13); r.font.name = MONO; r.font.color.rgb = col
+    r.font.bold = (i == 0)
 
-# =====================================================================
-# 8. UNDO
-# =====================================================================
-s = blank(); header(s, "Undo — Popping the Stack", "07")
-code(s, Inches(0.55), Inches(1.35), Inches(6.4), [
+code(s, Inches(7.35), Inches(1.28), Inches(5.4), [
     "bool undoDelete() {",
-    "  if (stackEmpty()) return false;  // nothing",
-    "  Student s = pop();     // STACK: top record",
+    "  if (stackEmpty()) return false;",
+    "  Student s = pop();   // STACK: top one",
     "  return addStudent(s.roll, s.name,",
     "                    s.course, s.room);",
     "}",
-], size=14, accent=GREEN)
+], size=13.5, accent=GREEN)
 
-bullets(s, Inches(0.55), Inches(3.35), Inches(6.4), [
-    ("Reuses addStudent()", " — the restored record goes back through the normal insertion path"),
-    ("Underflow is checked first", ", so pressing Undo with an empty stack is safe"),
-    ("LIFO in action: ", "delete three students, press Undo three times, and they come back in reverse order"),
-], size=16, gap=10)
-
-text(s, Inches(7.35), Inches(1.35), Inches(5.4), Inches(0.4),
-     "WHY LIFO IS THE RIGHT BEHAVIOUR", size=13, color=BLUE, bold=True)
-box(s, Inches(7.35), Inches(1.8), Inches(5.4), Inches(3.6), fill=LIGHT, line=BORDER)
-tb = s.shapes.add_textbox(Inches(7.6), Inches(2.0), Inches(4.95), Inches(3.25))
+box(s, Inches(7.35), Inches(3.15), Inches(5.4), Inches(2.45), fill=LIGHT, line=BORDER)
+tb = s.shapes.add_textbox(Inches(7.58), Inches(3.32), Inches(5.0), Inches(2.15))
 tf = tb.text_frame; tf.word_wrap = False
 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-seq = [
-    ("delete 101   stack:  | 101 |", NAVY),
-    ("delete 102   stack:  | 101 | 102 |  <- top", NAVY),
-    ("delete 103   stack:  | 101 | 102 | 103 |  <- top", NAVY),
-    ("", DARK),
-    ("undo   ->  103 comes back  (newest first)", RGBColor(0x0F, 0x7A, 0x38)),
-    ("undo   ->  102 comes back", RGBColor(0x0F, 0x7A, 0x38)),
-    ("undo   ->  101 comes back", RGBColor(0x0F, 0x7A, 0x38)),
-    ("undo   ->  stack empty, nothing happens", GREY),
-]
-for i, (ln, col) in enumerate(seq):
+for i, (ln, col, bd) in enumerate([
+    ("LIFO IN ACTION", BLUE, True),
+    ("delete 101, 102, 103", NAVY, False),
+    ("stack:  | 101 | 102 | 103 |  <- top", NAVY, False),
+    ("", DARK, False),
+    ("undo -> 103 back   (newest first)", RGBColor(0x0F, 0x7A, 0x38), False),
+    ("undo -> 102 back", RGBColor(0x0F, 0x7A, 0x38), False),
+    ("undo -> 101 back", RGBColor(0x0F, 0x7A, 0x38), False),
+    ("undo -> empty, nothing happens", GREY, False),
+]):
     p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-    p.space_after = Pt(4); p.line_spacing = 1.15
+    p.space_after = Pt(2); p.line_spacing = 1.14
     r = p.add_run(); r.text = ln
-    r.font.size = Pt(13.5); r.font.name = MONO; r.font.color.rgb = col
+    r.font.size = Pt(13); r.font.name = MONO; r.font.color.rgb = col; r.font.bold = bd
 
-text(s, Inches(7.35), Inches(5.6), Inches(5.4), Inches(0.9),
-     "A queue here would undo 101 first — the oldest deletion — which is not what "
-     "undo means. That is why the structure had to be a stack.",
-     size=15, color=GREY, line=1.22)
-footer(s, 8)
-
-# =====================================================================
-# 9. STRUCTURE
-# =====================================================================
-s = blank(); header(s, "Project Structure", "08")
-box(s, Inches(0.55), Inches(1.3), Inches(6.6), Inches(4.5), fill=CODEBG)
-tb = s.shapes.add_textbox(Inches(0.8), Inches(1.52), Inches(6.2), Inches(4.1))
-tf = tb.text_frame; tf.word_wrap = False
-tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-tree = [
-    ("ds_project_2/", CODEFG),
-    (" |", GREY),
-    " +-- src/",
-    ("      hostel.h      ALL data structure code", RGBColor(0xF0, 0xB4, 0x5C)),
-    "      console.cpp   the console menu program",
-    "      server.cpp     the small web server",
-    (" |", GREY),
-    " +-- web/",
-    "      index.html    the interface (no JavaScript)",
-    "      style.css     the styling",
-    (" |", GREY),
-    " +-- docs/          report and this presentation",
-    " +-- Makefile       build commands",
-    " +-- README.md",
-]
-for i, ln in enumerate(tree):
-    col = CODEFG
-    if isinstance(ln, tuple):
-        ln, col = ln
-    p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-    p.space_after = Pt(1); p.line_spacing = 1.14
-    r = p.add_run(); r.text = ln
-    r.font.size = Pt(14); r.font.name = MONO; r.font.color.rgb = col
-
-text(s, Inches(7.55), Inches(1.3), Inches(5.2), Inches(0.4),
-     "ONE FILE HOLDS THE LOGIC", size=13, color=BLUE, bold=True)
-text(s, Inches(7.55), Inches(1.78), Inches(5.2), Inches(1.6),
-     [[("All the data structures live in ", False, DARK),
-       ("src/hostel.h", True, NAVY),
-       (" — about 140 lines. The console program and the web server contain ", False, DARK),
-       ("no data structure code of their own", True, NAVY),
-       (": they are just two different ways of calling the same functions.", False, DARK)]],
-     size=16, line=1.28)
-bullets(s, Inches(7.55), Inches(3.65), Inches(5.2), [
-    ("Separation of logic from interface", ""),
-    ("The same header can be dropped into a bigger project", ""),
-    ("Nothing to install — standard library only", ""),
-], size=15.5, gap=9)
-footer(s, 9)
+box(s, Inches(7.35), Inches(5.78), Inches(5.4), Inches(1.05),
+    fill=RGBColor(0xFF, 0xF7, 0xE6), line=RGBColor(0xE0, 0xA8, 0x00))
+text(s, Inches(7.58), Inches(5.95), Inches(4.95), Inches(0.75),
+     [[("The order matters. ", True, RGBColor(0x8A, 0x5A, 0x00)),
+       ("The record is pushed ", False, DARK), ("before", True, DARK),
+       (" the shift overwrites it — otherwise undo would restore the wrong student.", False, DARK)]],
+     size=14, line=1.2)
+footer(s, 6)
 
 # =====================================================================
-# 10. HOW TO RUN
+# 7 — RUNNING IT + THE WEB UI
 # =====================================================================
-s = blank(); header(s, "How to Run It", "09")
-text(s, Inches(0.55), Inches(1.28), Inches(6.0), Inches(0.4),
+s = blank(); header(s, "Running It, and How the Web UI Works", "06")
+
+text(s, Inches(0.55), Inches(1.25), Inches(6.0), Inches(0.35),
      "WEB VERSION  (use this for the demo)", size=13, color=BLUE, bold=True)
-code(s, Inches(0.55), Inches(1.72), Inches(6.0), [
+code(s, Inches(0.55), Inches(1.66), Inches(6.0), [
     "$ cd ds_project_2",
     "$ make web",
-    "",
-    "g++ src/server.cpp -o server",
-    "./server",
     "Server running -> http://localhost:8080",
 ], size=14, accent=GREEN)
-text(s, Inches(0.55), Inches(3.6), Inches(6.0), Inches(0.4),
+text(s, Inches(0.55), Inches(2.95), Inches(6.0), Inches(0.35),
      "CONSOLE VERSION", size=13, color=BLUE, bold=True)
-code(s, Inches(0.55), Inches(4.04), Inches(6.0), [
+code(s, Inches(0.55), Inches(3.36), Inches(6.0), [
     "$ make cli",
-    "",
     "1. Add student      5. Undo delete (stack)",
     "2. Show all         6. Sort by name",
     "3. Search student   7. Exit",
     "4. Delete student",
 ], size=14, accent=GREEN)
-
-text(s, Inches(6.95), Inches(1.28), Inches(5.8), Inches(0.4),
-     "REQUIREMENTS", size=13, color=BLUE, bold=True)
-bullets(s, Inches(6.95), Inches(1.72), Inches(5.8), [
-    ("g++ ", "and Linux or macOS — nothing to install"),
-    ("POSIX sockets ", "are built into the operating system"),
-    ("Any browser ", "for the web version"),
-], size=15.5, gap=8)
-
-box(s, Inches(6.95), Inches(3.5), Inches(5.8), Inches(1.35), fill=RGBColor(0xFF, 0xF7, 0xE6), line=RGBColor(0xE0, 0xA8, 0x00))
-text(s, Inches(7.2), Inches(3.72), Inches(5.3), Inches(1.0),
+box(s, Inches(0.55), Inches(5.12), Inches(6.0), Inches(1.1),
+    fill=RGBColor(0xFF, 0xF7, 0xE6), line=RGBColor(0xE0, 0xA8, 0x00))
+text(s, Inches(0.78), Inches(5.3), Inches(5.55), Inches(0.8),
      [[("Run it from inside the project folder. ", True, RGBColor(0x8A, 0x5A, 0x00)),
-       ("The server reads web/index.html and web/style.css by relative path, so "
-        "starting it from elsewhere gives a blank page.", False, DARK)]],
-     size=15, line=1.22)
-text(s, Inches(6.95), Inches(5.1), Inches(5.8), Inches(1.0),
-     [[("Other commands: ", False, GREY), ("make", True, NAVY),
-       (" builds both programs, ", False, GREY), ("make clean", True, NAVY),
-       (" removes them, ", False, GREY), ("make report", True, NAVY),
-       (" rebuilds the PDF.", False, GREY)]], size=15, line=1.22)
-footer(s, 10)
+       ("The server reads web/index.html by relative path, so starting it "
+        "elsewhere gives a blank page.", False, DARK)]], size=14, line=1.2)
+text(s, Inches(0.55), Inches(6.38), Inches(6.0), Inches(0.4),
+     "Needs only g++ and a browser — nothing to install.",
+     size=14, color=GREY)
 
-# =====================================================================
-# 11. WEB UI
-# =====================================================================
-s = blank(); header(s, "How the Web Interface Works", "10")
-text(s, Inches(0.55), Inches(1.25), Inches(12.2), Inches(0.4),
-     [[("The interface is ", False, DARK), ("HTML and CSS only", True, NAVY),
-       (" — there is no JavaScript. Every button is a normal form or link, and "
-        "C++ does all the work.", False, DARK)]], size=16.5)
-
-box(s, Inches(0.55), Inches(1.85), Inches(7.6), Inches(4.35), fill=CODEBG)
-tb = s.shapes.add_textbox(Inches(0.78), Inches(2.05), Inches(7.2), Inches(4.0))
+text(s, Inches(6.9), Inches(1.25), Inches(5.85), Inches(0.5),
+     [[("The UI is ", False, DARK), ("HTML and CSS only", True, NAVY),
+       (" — no JavaScript. Every button is a normal form or link.", False, DARK)]],
+     size=15, line=1.2)
+box(s, Inches(6.9), Inches(2.05), Inches(5.85), Inches(3.1), fill=CODEBG)
+tb = s.shapes.add_textbox(Inches(7.1), Inches(2.2), Inches(5.5), Inches(2.8))
 tf = tb.text_frame; tf.word_wrap = False
 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-flow = [
-    ("  browser                     C++ server (server.cpp)", RGBColor(0x9F, 0xB6, 0xE8)),
-    ("     |                              |", GREY),
-    ("  GET /  ---------------------->     read web/index.html", CODEFG),
-    ("     |                              loop the ARRAY -> table rows", RGBColor(0x7E, 0xC9, 0x9B)),
-    ("     |                              loop the STACK -> the list", RGBColor(0x7E, 0xC9, 0x9B)),
-    ("     |                              fill in {{ROWS}} {{STACK}}", RGBColor(0x7E, 0xC9, 0x9B)),
-    ("     |  <--- finished HTML page      {{COUNT}} {{SEARCH}}", CODEFG),
-    ("     |                              |", GREY),
-    ("  POST /add  ------------------>     addStudent()   array insert", CODEFG),
-    ("  GET /delete?roll=102 ------->     deleteStudent() shift + push", CODEFG),
-    ("  GET /undo  ------------------>     undoDelete()   pop", CODEFG),
-    ("  GET /sort  ------------------>     sortByName()   string compare", CODEFG),
-    ("  GET /?q=bca ----------------->     matches()      string search", CODEFG),
-    ("     |  <--- redirect back to /      |", GREY),
-]
-for i, (ln, col) in enumerate(flow):
+for i, (ln, col) in enumerate([
+    ("browser              C++ server", RGBColor(0x9F, 0xB6, 0xE8)),
+    ("GET /       ---->  read index.html", CODEFG),
+    ("            <----  loop ARRAY -> rows", RGBColor(0x7E, 0xC9, 0x9B)),
+    ("                   loop STACK -> list", RGBColor(0x7E, 0xC9, 0x9B)),
+    ("                   fill {{ROWS}} etc.", RGBColor(0x7E, 0xC9, 0x9B)),
+    ("", CODEFG),
+    ("POST /add   ---->  addStudent()", CODEFG),
+    ("GET /delete ---->  shift + push", CODEFG),
+    ("GET /undo   ---->  pop", CODEFG),
+    ("GET /sort   ---->  string compare", CODEFG),
+    ("GET /?q=bca ---->  string search", CODEFG),
+]):
     p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
     p.space_after = Pt(1); p.line_spacing = 1.16
     r = p.add_run(); r.text = ln
     r.font.size = Pt(13); r.font.name = MONO; r.font.color.rgb = col
-
-text(s, Inches(8.55), Inches(1.85), Inches(4.2), Inches(0.4),
-     "TEMPLATE REPLACEMENT", size=13, color=BLUE, bold=True)
-text(s, Inches(8.55), Inches(2.3), Inches(4.2), Inches(1.5),
-     [[("index.html holds markers like ", False, DARK), ("{{ROWS}}", True, NAVY),
-       (". The C++ function makePage() swaps each one for text built from the "
-        "array and the stack — so design stays separate from logic.", False, DARK)]],
-     size=15, line=1.25)
-box(s, Inches(8.55), Inches(4.15), Inches(4.2), Inches(2.05), fill=RGBColor(0xEC, 0xFD, 0xF3), line=GREEN)
-text(s, Inches(8.78), Inches(4.35), Inches(3.75), Inches(1.7),
+box(s, Inches(6.9), Inches(5.3), Inches(5.85), Inches(1.5),
+    fill=RGBColor(0xEC, 0xFD, 0xF3), line=GREEN)
+text(s, Inches(7.13), Inches(5.48), Inches(5.4), Inches(1.2),
      [[("Good for the demo: ", True, RGBColor(0x0F, 0x7A, 0x38)),
-       ("the page shows the stack itself, with the top marked ", False, DARK),
+       ("the page shows the stack itself, top marked ", False, DARK),
        ("TOP →", True, NAVY),
-       (". Delete a student and the record appears on the stack; press Undo and "
-        "it disappears. The structure is visible on screen.", False, DARK)]],
-     size=14.5, line=1.22)
-footer(s, 11)
+       (". Delete a student and it appears on the stack; press Undo and it "
+        "disappears. The structure is visible on screen.", False, DARK)]],
+     size=14, line=1.2)
+footer(s, 7)
 
 # =====================================================================
-# 12. TESTING
+# 8 — RESULTS AND CONCLUSION
 # =====================================================================
-s = blank(); header(s, "Testing", "11")
-text(s, Inches(0.55), Inches(1.25), Inches(12.2), Inches(0.4),
-     "Every feature was tested in both versions — these are the actual results.",
-     size=16, color=GREY)
-table(s, Inches(0.55), Inches(1.8), Inches(12.2), [
-    ["#", "Test", "Expected result", "Status"],
-    ["1", "Add a student with a new roll number", "Added, array size grows by 1", "Pass"],
-    ["2", "Add a roll number that already exists", "Rejected, array unchanged", "Pass"],
-    ["3", "Search  bca  in small letters", "Finds the student whose course is BCA", "Pass"],
-    ["4", "Delete a student from the middle", "Removed, later records shift left, no gap", "Pass"],
-    ["5", "Check the stack after deleting", "Deleted record shown on top of the stack", "Pass"],
-    ["6", "Press Undo", "Student returns, stack becomes empty", "Pass"],
-    ["7", "Press Undo with an empty stack", "Handled safely, no crash (underflow check)", "Pass"],
-    ["8", "Delete two students, then undo twice", "Restored in reverse order (LIFO)", "Pass"],
-    ["9", "Sort by name", "Anita, Karan, Priya, Ravi — alphabetical", "Pass"],
-    ["10", "Add a name with a space via the web form", "Stored correctly as \"Priya Singh\"", "Pass"],
-], [0.6, 4.6, 5.6, 1.1], size=13.5, rh=0.41)
-text(s, Inches(0.55), Inches(6.5), Inches(12.2), Inches(0.4),
-     "12 test cases in total (the full table is in the project report) — all passing.",
-     size=14.5, color=GREY)
-footer(s, 12)
+s = blank(); header(s, "Results and Conclusion", "07")
 
-# =====================================================================
-# 13. COMPLEXITY
-# =====================================================================
-s = blank(); header(s, "Time Complexity", "12")
-table(s, Inches(0.55), Inches(1.4), Inches(12.2), [
-    ["Operation", "Structures used", "Best", "Worst", "Reason"],
-    ["Add student", "Array", "O(1)", "O(n)", "insert is O(1), but the duplicate check is a search"],
-    ["Search", "Array + String", "O(1)", "O(n)", "linear search — the whole array in the worst case"],
-    ["Delete student", "Array + Stack", "O(1)", "O(n)", "shifting every element after the deleted one"],
-    ["Push / Pop", "Stack", "O(1)", "O(1)", "only the top_ index changes"],
-    ["Undo delete", "Stack + Array", "O(1)", "O(n)", "O(1) pop, then a re-insert that checks duplicates"],
-    ["Sort by name", "Array + String", "O(n)", "O(n²)", "bubble sort with nested loops"],
-], [2.3, 2.4, 1.0, 1.0, 5.5], size=13.5, rh=0.55)
+text(s, Inches(0.55), Inches(1.25), Inches(6.0), Inches(0.35),
+     "TIME COMPLEXITY", size=13, color=BLUE, bold=True)
+table(s, Inches(0.55), Inches(1.68), Inches(6.0), [
+    ["Operation", "Structures", "Worst"],
+    ["Add student", "Array", "O(n)"],
+    ["Search", "Array + String", "O(n)"],
+    ["Delete student", "Array + Stack", "O(n)"],
+    ["Push / Pop", "Stack", "O(1)"],
+    ["Undo delete", "Stack + Array", "O(n)"],
+    ["Sort by name", "Array + String", "O(n²)"],
+], [2.3, 2.6, 1.1], size=13.5, rh=0.4)
+text(s, Inches(0.55), Inches(4.58), Inches(6.0), Inches(0.6),
+     [[("Space: ", True, NAVY),
+       ("O(n) — one array of 100 records plus one stack of 100, allocated once. "
+        "Push and pop are the only O(1) worst case operations.", False, DARK)]],
+     size=14, line=1.2)
 
-box(s, Inches(0.55), Inches(5.62), Inches(5.9), Inches(1.1), fill=LIGHT, line=BORDER)
-text(s, Inches(0.8), Inches(5.84), Inches(5.45), Inches(0.8),
-     [[("Space complexity: ", True, NAVY),
-       ("O(n) — one array of 100 records plus one stack of 100 records, "
-        "allocated once at the start.", False, DARK)]], size=15.5, line=1.22)
-box(s, Inches(6.85), Inches(5.62), Inches(5.9), Inches(1.1), fill=LIGHT, line=BORDER)
-text(s, Inches(7.1), Inches(5.84), Inches(5.45), Inches(0.8),
-     [[("Note: ", True, NAVY),
-       ("push and pop are the only O(1) worst case operations — that is the "
-        "advantage of using a stack for undo.", False, DARK)]], size=15.5, line=1.22)
-footer(s, 13)
+text(s, Inches(6.9), Inches(1.25), Inches(5.85), Inches(0.35),
+     "TESTING", size=13, color=BLUE, bold=True)
+box(s, Inches(6.9), Inches(1.68), Inches(5.85), Inches(0.62), fill=RGBColor(0xEC, 0xFD, 0xF3), line=GREEN)
+text(s, Inches(7.13), Inches(1.82), Inches(5.4), Inches(0.4),
+     [[("12 test cases, all passing", True, RGBColor(0x0F, 0x7A, 0x38)),
+       ("  — in both versions", False, DARK)]], size=15)
+bullets(s, Inches(6.9), Inches(2.5), Inches(5.85), [
+    ("Duplicate roll numbers ", "are rejected, array unchanged"),
+    ("Deleting from the middle ", "shifts later records left, no gap"),
+    ("The deleted record ", "appears on top of the stack"),
+    ("Two deletes, two undos ", "restore in reverse order (LIFO)"),
+    ("Undo on an empty stack ", "is handled safely, no crash"),
+], size=14.5, gap=7)
 
-# =====================================================================
-# 14. LIMITATIONS
-# =====================================================================
-s = blank(); header(s, "Limitations and Future Scope", "13")
-table(s, Inches(0.55), Inches(1.35), Inches(12.2), [
-    ["Current limitation", "How it could be improved"],
-    ["Records are lost when the program stops (memory only)", "Save to a text or CSV file using file handling"],
-    ["Fixed capacity of 100 students", "A dynamic array that doubles in size, or a linked list"],
-    ["Search is a linear scan, O(n)", "Keep the array sorted by roll number and use binary search, O(log n)"],
-    ["Bubble sort is O(n²)", "Merge sort or quick sort, O(n log n)"],
-    ["Undo covers deletion only", "Push every action onto the stack to undo edits as well"],
-    ["The server handles one request at a time", "Handle each connection in a separate thread"],
-    ["No room allocation or waiting list", "Add a queue for the waiting list — naturally FIFO"],
-], [5.9, 6.3], size=14.5, rh=0.57)
-text(s, Inches(0.55), Inches(6.55), Inches(12.2), Inches(0.5),
-     [[("The natural next step: ", True, NAVY),
-       ("a queue for the room waiting list. Students should get rooms in the "
-        "order they applied — First In First Out — just as undo needed Last In First Out.", False, DARK)]],
-     size=15.5, line=1.2)
-footer(s, 14)
-
-# =====================================================================
-# 15. VIVA
-# =====================================================================
-s = blank(); header(s, "Questions You May Be Asked", "14")
-qa = [
-    ("Why a stack and not a queue?",
-     "Undo must reverse the most recent deletion first — LIFO. A queue would undo the oldest first."),
-    ("Why not use std::vector or std::stack?",
-     "The point is to demonstrate the structures, so both are written by hand: count_ for the array, top_ for the stack."),
-    ("What happens when you delete from the middle?",
-     "Linear search finds the position, the record is pushed, then everything after it shifts one place left. O(n)."),
-    ("What are overflow and underflow?",
-     "Pushing onto a full stack and popping an empty one. Both are checked before the array is touched."),
-    ("Why does top_ start at -1?",
-     "An empty stack has no valid top index, and -1 is just before index 0. It also makes size = top_ + 1."),
-    ("How does bca match BCA?",
-     "Both strings are converted with toLower(), which adds 32 to the ASCII code of capitals, before find() compares them."),
-]
-y = Inches(1.28)
-for i, (q, a) in enumerate(qa):
-    box(s, Inches(0.55), y, Inches(12.2), Inches(0.86),
-        fill=LIGHT if i % 2 == 0 else WHITE, line=BORDER)
-    text(s, Inches(0.8), y + Inches(0.1), Inches(11.7), Inches(0.3),
-         "Q.  " + q, size=15.5, color=NAVY, bold=True)
-    text(s, Inches(0.8), y + Inches(0.42), Inches(11.7), Inches(0.36),
-         "A.  " + a, size=14.5, color=DARK)
-    y += Inches(0.9)
-text(s, Inches(0.55), Inches(6.85), Inches(12.2), Inches(0.4),
-     "Ten questions with full answers are in section 9 of the project report.",
-     size=14, color=GREY)
-footer(s, 15)
-
-# =====================================================================
-# 16. CONCLUSION
-# =====================================================================
-s = blank()
-box(s, 0, 0, W, H, fill=NAVY)
-box(s, Inches(1.0), Inches(1.15), Inches(0.055), Inches(0.85), fill=BLUE)
-text(s, Inches(1.3), Inches(1.2), Inches(11.0), Inches(0.8),
-     "Conclusion", size=38, color=WHITE, bold=True)
-pts = [
-    ("Array", " — indexed storage of the records, with insert, linear search and delete-with-shift"),
-    ("Stack", " — the undo history, chosen because undo is inherently Last In First Out"),
-    ("String", " — case-insensitive search and alphabetical sorting through character comparison"),
-]
-y = Inches(2.5)
-for lead, rest in pts:
-    box(s, Inches(1.3), y + Inches(0.12), Inches(0.08), Inches(0.08), fill=BLUE)
-    text(s, Inches(1.62), y, Inches(10.5), Inches(0.5),
-         [[(lead, True, WHITE), (rest, False, RGBColor(0xC3, 0xD2, 0xF0))]],
-         size=19, line=1.2)
-    y += Inches(0.72)
-
-text(s, Inches(1.3), Inches(4.9), Inches(10.8), Inches(1.2),
-     [[("All three are implemented from first principles, and the same logic is "
-        "exposed through two interfaces — a console menu and a browser page — "
-        "which shows that the data structure code is independent of how it is "
-        "presented.", False, RGBColor(0xC3, 0xD2, 0xF0))]], size=17, line=1.3)
-box(s, Inches(1.3), Inches(6.15), Inches(10.8), Inches(0.02), fill=BLUE)
-text(s, Inches(1.3), Inches(6.35), Inches(10.8), Inches(0.5),
-     [[("Everything lives in one header, ", False, RGBColor(0x9F, 0xB6, 0xE8)),
+box(s, Inches(0.55), Inches(5.35), Inches(12.2), Inches(1.5), fill=NAVY)
+text(s, Inches(0.85), Inches(5.52), Inches(11.6), Inches(0.4),
+     "CONCLUSION", size=12.5, color=RGBColor(0x9F, 0xB6, 0xE8), bold=True)
+text(s, Inches(0.85), Inches(5.85), Inches(11.6), Inches(0.9),
+     [[("Array", True, WHITE), (" for indexed storage,  ", False, RGBColor(0xC3, 0xD2, 0xF0)),
+       ("Stack", True, WHITE), (" for undo because undo is inherently LIFO,  ", False, RGBColor(0xC3, 0xD2, 0xF0)),
+       ("String", True, WHITE), (" for case-insensitive search and sorting.", False, RGBColor(0xC3, 0xD2, 0xF0))],
+      [("All three written from first principles, in one header — ", False, RGBColor(0xC3, 0xD2, 0xF0)),
        ("src/hostel.h", True, WHITE),
-       (" — ready to reuse in a larger project.", False, RGBColor(0x9F, 0xB6, 0xE8))]],
-     size=16)
+       (" — ready to reuse in a larger project. Next step: a queue for the room waiting list.",
+        False, RGBColor(0xC3, 0xD2, 0xF0))]],
+     size=15.5, line=1.25, space=4)
+footer(s, 8)
 
 prs.save("docs/DS_Project_2_Presentation.pptx")
 print("saved docs/DS_Project_2_Presentation.pptx with %d slides" % len(prs.slides._sldIdLst))

@@ -27,7 +27,7 @@ ds_project_2/
 │   └── style.css      the styling
 ├── docs/
 │   ├── DS_Project_2_Report.pdf         full project report (for submission)
-│   ├── DS_Project_2_Presentation.pptx  16-slide presentation
+│   ├── DS_Project_2_Presentation.pptx  8-slide presentation
 │   ├── report.html                     source of the report
 │   └── make_ppt.py                     script that builds the presentation
 ├── Makefile
@@ -45,7 +45,7 @@ test results, time complexity, limitations, and a set of likely viva questions w
 
 Regenerate it after editing `docs/report.html` with `make report`.
 
-A 16-slide presentation is in **[docs/DS_Project_2_Presentation.pptx](docs/DS_Project_2_Presentation.pptx)**,
+A 8-slide presentation is in **[docs/DS_Project_2_Presentation.pptx](docs/DS_Project_2_Presentation.pptx)**,
 built by `docs/make_ppt.py` (`make ppt`, needs `python-pptx`).
 
 ## How to run

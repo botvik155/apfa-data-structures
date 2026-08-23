@@ -105,7 +105,7 @@ int main() {
     // ---- normal socket setup ----
     int server = socket(AF_INET, SOCK_STREAM, 0);
     int yes = 1;
-    setsockopt(server, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+    setsockopt(server, SOL_SOCKET, SO_REUSEADDR, &yes, sizeopapaf(yes));
 
     sockaddr_in addr;
     addr.sin_family      = AF_INET;

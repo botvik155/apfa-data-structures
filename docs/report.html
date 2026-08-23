@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DS Project 2 - Hostel Student Management System</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "DejaVu Sans", Arial, Helvetica, sans-serif;
+    font-size: 10.5pt; line-height: 1.55; color: #1a1a1a; margin: 0;
+  }
+  h1 { font-size: 21pt; margin: 0 0 2mm 0; }
+  h2 {
+    font-size: 13.5pt; margin: 8mm 0 2.5mm 0; padding-bottom: 1.5mm;
+    border-bottom: 1.5px solid #2f6fed; color: #12356f;
+    page-break-after: avoid;
+  }
+  h3 { font-size: 11.5pt; margin: 5mm 0 1.5mm 0; color: #12356f; page-break-after: avoid; }
+  p { margin: 0 0 2.5mm 0; text-align: justify; }
+  ul, ol { margin: 0 0 3mm 0; padding-left: 6mm; }
+  li { margin-bottom: 1.2mm; }
+  code {
+    font-family: "DejaVu Sans Mono", Consolas, monospace;
+    font-size: 9pt; background: #eef1f6; padding: 0.4mm 1.2mm;
+    border-radius: 2px;
+  }
+  pre {
+    font-family: "DejaVu Sans Mono", Consolas, monospace;
+    font-size: 8.5pt; line-height: 1.42;
+    background: #f6f8fa; border: 1px solid #d8dde5;
+    border-left: 3px solid #2f6fed;
+    padding: 3mm 3.5mm; margin: 0 0 3.5mm 0;
+    white-space: pre-wrap; page-break-inside: avoid;
+  }
+  pre.term { background: #1e2430; border-color: #1e2430; border-left-color: #16a34a; color: #e6e9ef; }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 4mm 0; font-size: 9.5pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #ccd2db; padding: 1.8mm 2.2mm; text-align: left; vertical-align: top; }
+  th { background: #eaf0fb; color: #12356f; font-size: 9pt; }
+  td.c, th.c { text-align: center; }
+  .cover { border: 2px solid #2f6fed; border-radius: 4px; padding: 6mm; margin-bottom: 6mm; }
+  .cover .sub { font-size: 11.5pt; color: #555; margin: 0 0 4mm 0; }
+  .meta { width: auto; margin: 0; font-size: 10pt; }
+  .meta td { border: none; padding: 1mm 6mm 1mm 0; }
+  .meta td:first-child { color: #666; }
+  .note {
+    background: #fff8e1; border: 1px solid #f0d9a0; border-left: 3px solid #e0a800;
+    padding: 2.5mm 3mm; margin: 0 0 3.5mm 0; font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  .qa { page-break-inside: avoid; margin-bottom: 3.5mm; }
+  .qa .q { font-weight: bold; color: #12356f; }
+  .qa .a { margin-top: 0.8mm; }
+  .pb { page-break-before: always; }
+  .flow {
+    font-family: "DejaVu Sans Mono", monospace; font-size: 8.5pt; line-height: 1.5;
+    background: #f6f8fa; border: 1px solid #d8dde5; padding: 3mm;
+    margin-bottom: 3.5mm; white-space: pre; page-break-inside: avoid;
+  }
+  footer { margin-top: 8mm; border-top: 1px solid #ccc; padding-top: 2mm; font-size: 8.5pt; color: #888; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Hostel Student Management System</h1>
+  <p class="sub">A Data Structures mini project in C++ using <b>Arrays</b>, <b>Stacks</b> and <b>Strings</b></p>
+  <table class="meta">
+    <tr><td>Project</td><td><b>DS Project 2</b></td></tr>
+    <tr><td>Language</td><td>C++ (standard library only, no external libraries)</td></tr>
+    <tr><td>Interface</td><td>Console menu + web page (HTML &amp; CSS) on localhost</td></tr>
+    <tr><td>Data structures</td><td>Array, Stack, String</td></tr>
+    <tr><td>Lines of code</td><td>approx. 420 (all hand written)</td></tr>
+  </table>
+</div>
+
+<h2>1. Objective of the Project</h2>
+<p>
+The aim of this project is to build a small record management system for a hostel
+and, while doing so, <b>implement the basic data structures by hand</b> instead of
+using ready made containers from the C++ standard library.
+</p>
+<p>The system stores student records (roll number, name, course, room number) and supports:</p>
+<ul>
+  <li><b>Add</b> a new student</li>
+  <li><b>Display</b> all students</li>
+  <li><b>Search</b> a student by name, course or roll number</li>
+  <li><b>Delete</b> a student</li>
+  <li><b>Undo</b> the last deletion (this is the part that needs a stack)</li>
+  <li><b>Sort</b> the records alphabetically by name</li>
+</ul>
+<p>
+The "undo delete" feature is the reason a stack is genuinely required. Deletions must
+be undone in <b>reverse order</b> of when they happened, which is exactly Last In
+First Out (LIFO) behaviour, so a stack is the natural structure for it.
+</p>
+
+<h2>2. Data Structures Used and Why</h2>
+
+<h3>2.1 Array &mdash; to store the records</h3>
+<pre>Student students[MAX];   // MAX = 100
+int count_ = 0;          // how many students are actually stored</pre>
+<p>
+A single fixed size array holds every student record. <code>count_</code> tracks how
+many slots are in use, so the "logical size" of the list is independent of the array's
+physical capacity.
+</p>
+<ul>
+  <li><b>Insertion</b> puts the new record at index <code>count_</code> and increments it &mdash; O(1).</li>
+  <li><b>Searching</b> walks the array from index 0 to <code>count_-1</code>, a <b>linear search</b> &mdash; O(n).</li>
+  <li><b>Deletion</b> finds the position, then <b>shifts every later element one place left</b> so no
+      empty hole is left in the middle &mdash; O(n).</li>
+</ul>
+<p><i>Why an array?</i> Records need to be accessed by position and displayed in order,
+and the maximum number of students in a hostel is known in advance. An array gives
+constant time access with the simplest possible memory layout.</p>
+
+<h3>2.2 Stack &mdash; to remember deleted records (Undo)</h3>
+<pre>Student stack_[MAX];     // the stack itself
+int top_ = -1;           // index of the top element; -1 means empty</pre>
+<p>
+The stack is implemented using an array plus a <code>top_</code> index, which is the
+standard array implementation of a stack. It is used as an <b>undo history</b>: every
+time a student is deleted from the main array, that record is <b>pushed</b> onto the
+stack before it is removed. Choosing <i>Undo</i> <b>pops</b> the topmost record and
+re-inserts it into the array.
+</p>
+<table>
+  <tr><th>Operation</th><th>What the code does</th><th class="c">Time</th></tr>
+  <tr><td><code>push(s)</code></td><td>increment <code>top_</code>, store the record at that index</td><td class="c">O(1)</td></tr>
+  <tr><td><code>pop()</code></td><td>read the record at <code>top_</code>, then decrement <code>top_</code></td><td class="c">O(1)</td></tr>
+  <tr><td><code>stackEmpty()</code></td><td>returns true when <code>top_ == -1</code></td><td class="c">O(1)</td></tr>
+</table>
+<p>
+Both the <b>overflow</b> condition (<code>top_ == MAX-1</code>, stack full) and the
+<b>underflow</b> condition (<code>top_ == -1</code>, nothing to pop) are checked before
+the operation, so the program can never write or read outside the array.
+</p>
+
+<h3>2.3 String &mdash; for names, courses and searching</h3>
+<p>
+<code>std::string</code> is used for the name and course fields, and string operations
+provide two of the features:
+</p>
+<ul>
+  <li><b>Case insensitive search:</b> <code>toLower()</code> converts a string to small letters by
+      adding 32 to the ASCII code of every capital letter; <code>contains()</code> then uses
+      <code>find()</code> to check whether one string occurs inside another. This is why
+      typing <code>bca</code> also finds <code>BCA</code>.</li>
+  <li><b>Sorting by name:</b> <code>sortByName()</code> is a <b>bubble sort</b> that compares two
+      strings with the <code>&gt;</code> operator, which compares them lexicographically
+      (dictionary order), character by character.</li>
+</ul>
+
+<h2 class="pb">3. Project Structure</h2>
+<div class="flow">ds_project_2/
+ |
+ +-- src/
+ |    +-- hostel.h        <-- ALL data structure code (array, stack, string)
+ |    +-- console.cpp     <-- menu driven console program
+ |    +-- server.cpp      <-- small web server that produces the web page
+ |
+ +-- web/
+ |    +-- index.html      <-- the user interface (plain HTML, no JavaScript)
+ |    +-- style.css       <-- the styling
+ |
+ +-- docs/report.html     <-- source of this document
+ +-- Makefile             <-- build commands
+ +-- README.md            <-- short instructions
+ +-- .gitignore</div>
+<p>
+An important design point: <b>every data structure lives in one header file,
+<code>src/hostel.h</code></b>. The console program and the web server contain no data
+structure logic of their own &mdash; they only provide two different ways of calling the
+same functions. This shows separation of logic from interface, and it means the same
+header can be reused inside a larger project later.
+</p>
+<table>
+  <tr><th>File</th><th>Contains</th><th class="c">Approx. lines</th></tr>
+  <tr><td><code>src/hostel.h</code></td><td>Struct <code>Student</code>, the array, the stack, and all operations</td><td class="c">140</td></tr>
+  <tr><td><code>src/console.cpp</code></td><td><code>main()</code> with the text menu and <code>cin</code>/<code>cout</code></td><td class="c">100</td></tr>
+  <tr><td><code>src/server.cpp</code></td><td>Socket web server, form parsing, HTML generation</td><td class="c">180</td></tr>
+  <tr><td><code>web/index.html</code></td><td>Forms, table and stack list, with placeholders</td><td class="c">60</td></tr>
+  <tr><td><code>web/style.css</code></td><td>Colours, spacing, table and button styling</td><td class="c">120</td></tr>
+</table>
+
+<h2>4. How to Compile and Run</h2>
+<p><b>Requirements:</b> a C++ compiler (<code>g++</code>) and Linux or macOS. No libraries need to be
+installed. The web server uses POSIX sockets, which are built into the operating system.</p>
+
+<h3>4.1 The web version (recommended for the demo)</h3>
+<pre class="term">$ cd ds_project_2
+$ make web
+
+g++ src/server.cpp -o server
+./server
+Server running -> http://localhost:8080</pre>
+<p>Now open <b>http://localhost:8080</b> in any browser. Press <code>Ctrl + C</code> in the terminal to stop the server.</p>
+<div class="note">
+<b>Important:</b> run the server from inside the <code>ds_project_2</code> folder. It reads
+<code>web/index.html</code> and <code>web/style.css</code> using relative paths, so starting it
+from another folder gives a blank page.
+</div>
+
+<h3>4.2 The console version</h3>
+<pre class="term">$ cd ds_project_2
+$ make cli
+
+g++ src/console.cpp -o hostel
+./hostel
+
+===== HOSTEL STUDENT MANAGEMENT =====
+1. Add student
+2. Show all students
+3. Search student
+4. Delete student
+5. Undo delete (stack)
+6. Sort by name
+7. Exit
+Enter choice: _</pre>
+
+<h3>4.3 Compiling by hand (without <code>make</code>)</h3>
+<pre class="term">$ g++ src/console.cpp -o hostel     &amp;&amp;  ./hostel
+$ g++ src/server.cpp  -o server     &amp;&amp;  ./server</pre>
+<p>Other commands: <code>make</code> builds both programs, <code>make clean</code> deletes the compiled files.</p>
+
+<h2>5. Code Walkthrough</h2>
+<p>These are the four functions worth showing to a teacher, because each one demonstrates a
+different data structure operation.</p>
+
+<h3>5.1 Insertion into the array</h3>
+<pre>bool addStudent(int roll, string name, string course, int room) {
+    if (count_ >= MAX)           return false;   // array is full
+    if (findStudent(roll) != -1)  return false;   // duplicate roll number
+
+    students[count_].roll   = roll;
+    students[count_].name   = name;
+    students[count_].course = course;
+    students[count_].room   = room;
+    count_++;
+    return true;
+}</pre>
+<p>Two validity checks are done first (capacity and duplicate roll number), then the record is
+written at the end of the array. No shifting is needed, so this is O(1).</p>
+
+<h3>5.2 Linear search in the array</h3>
+<pre>int findStudent(int roll) {
+    for (int i = 0; i < count_; i++)
+        if (students[i].roll == roll)
+            return i;         // found: return the position
+    return -1;                // not found
+}</pre>
+<p>The function returns the <b>index</b>, not the record, because deletion needs to know
+<i>where</i> in the array the student is. Returning <code>-1</code> for "not found" is the usual convention.</p>
+
+<h3>5.3 Deletion: array shift plus stack push</h3>
+<pre>bool deleteStudent(int roll) {
+    int i = findStudent(roll);
+    if (i == -1) return false;              // nothing to delete
+
+    push(students[i]);                      // STACK: save it for undo
+
+    for (int j = i; j < count_ - 1; j++)     // ARRAY: shift everything left
+        students[j] = students[j + 1];
+    count_--;
+    return true;
+}</pre>
+<p>
+This is the most important function in the project because <b>both</b> structures work together.
+The order matters: the record is pushed onto the stack <b>before</b> it is overwritten by the shift,
+otherwise the data would be lost and undo would be impossible.
+</p>
+<div class="flow">Deleting roll 102 from the array
+
+ before:  [101][102][103][104]      count_ = 4
+                  |
+                  +--- push a copy onto the stack
+ shift:   [101][103][104][104]      copy each element one place left
+ after:   [101][103][104]           count_ = 3   (last slot is ignored)
+
+ stack:   | 102 |  <-- top_</div>
+
+<h3>5.4 Undo: pop from the stack</h3>
+<pre>bool undoDelete() {
+    if (stackEmpty()) return false;          // nothing was deleted
+    Student s = pop();                       // STACK: take the top record
+    return addStudent(s.roll, s.name, s.course, s.room);   // put it back
+}</pre>
+<p>
+Undo simply pops the most recent deletion and re-inserts it using the normal insertion
+function. Because the stack is LIFO, deleting three students and pressing undo three times
+restores them in the <b>reverse</b> order of deletion, which is exactly how undo should behave.
+</p>
+
+<h2>6. How the Web Interface Works</h2>
+<p>
+The user interface is written in <b>HTML and CSS only &mdash; there is no JavaScript anywhere in
+this project</b>. Every button is an ordinary HTML form or link, and all the work is done in C++.
+</p>
+<div class="flow">  browser                        C++ server (server.cpp)
+     |                                    |
+     |  1. GET /                          |
+     |----------------------------------->|  read web/index.html
+     |                                    |  loop over the ARRAY  -> build table rows
+     |                                    |  loop over the STACK  -> build the list
+     |                                    |  replace {{ROWS}} {{STACK}} {{COUNT}} {{SEARCH}}
+     |  2. finished HTML page             |
+     |<-----------------------------------|
+     |                                    |
+     |  3. POST /add  (the Add form)      |
+     |----------------------------------->|  addStudent(...)   -> array insert
+     |  4. redirect back to /             |
+     |<-----------------------------------|
+     |                                    |
+     |  GET /delete?roll=102              |  deleteStudent()   -> shift + push
+     |  GET /undo                         |  undoDelete()      -> pop
+     |  GET /sort                         |  sortByName()      -> string compare
+     |  GET /?q=bca                       |  matches()         -> string search</div>
+<p>The server is a normal socket program and follows the classic five steps:</p>
+<ol>
+  <li><code>socket()</code> &mdash; create the socket</li>
+  <li><code>bind()</code> &mdash; attach it to port 8080</li>
+  <li><code>listen()</code> &mdash; start accepting connections</li>
+  <li><code>accept()</code> &mdash; wait for a browser, in an infinite loop</li>
+  <li><code>read()</code> the request, send the reply with <code>write()</code>, then <code>close()</code></li>
+</ol>
+<p>
+The page is produced by <b>template replacement</b>: <code>web/index.html</code> contains the markers
+<code>{{ROWS}}</code>, <code>{{STACK}}</code>, <code>{{COUNT}}</code> and <code>{{SEARCH}}</code>, and the C++
+function <code>makePage()</code> replaces each marker with text built from the array and the stack.
+This keeps design (HTML/CSS) completely separate from logic (C++).
+</p>
+<p>
+A useful detail for the demo: the page displays <b>the stack itself</b> as a list with the top
+element labelled <code>TOP &rarr;</code>. So when a student is deleted, the record can be seen
+appearing on top of the stack, and when Undo is pressed it can be seen being removed. The data
+structure is visible on screen rather than hidden inside the program.
+</p>
+
+<h2>7. Testing</h2>
+<p>Every feature was tested in both versions. These are the actual results.</p>
+<table>
+  <tr><th class="c">#</th><th>Test</th><th>Expected</th><th class="c">Result</th></tr>
+  <tr><td class="c">1</td><td>Add a student with a new roll number</td><td>Added, array size increases by 1</td><td class="c">Pass</td></tr>
+  <tr><td class="c">2</td><td>Add a student with a roll number that already exists</td><td>Rejected, array unchanged</td><td class="c">Pass</td></tr>
+  <tr><td class="c">3</td><td>Search <code>bca</code> (small letters)</td><td>Finds the student whose course is <code>BCA</code></td><td class="c">Pass</td></tr>
+  <tr><td class="c">4</td><td>Search a roll number as text</td><td>Finds that student</td><td class="c">Pass</td></tr>
+  <tr><td class="c">5</td><td>Delete a student from the middle</td><td>Removed, later records shift left, no gap</td><td class="c">Pass</td></tr>
+  <tr><td class="c">6</td><td>Check the stack after deleting</td><td>Deleted record shown on top of the stack</td><td class="c">Pass</td></tr>
+  <tr><td class="c">7</td><td>Press Undo</td><td>Student returns to the array, stack becomes empty</td><td class="c">Pass</td></tr>
+  <tr><td class="c">8</td><td>Press Undo with an empty stack</td><td>Handled safely, no crash (underflow check)</td><td class="c">Pass</td></tr>
+  <tr><td class="c">9</td><td>Delete two students, then undo twice</td><td>Restored in reverse order (LIFO)</td><td class="c">Pass</td></tr>
+  <tr><td class="c">10</td><td>Sort by name</td><td>Anita, Karan, Priya, Ravi &mdash; alphabetical</td><td class="c">Pass</td></tr>
+  <tr><td class="c">11</td><td>Delete a roll number that does not exist</td><td>Reports not found, nothing pushed</td><td class="c">Pass</td></tr>
+  <tr><td class="c">12</td><td>Add a name containing a space through the web form</td><td>Stored correctly as "Priya Singh"</td><td class="c">Pass</td></tr>
+</table>
+
+<h3>Time complexity summary</h3>
+<table>
+  <tr><th>Operation</th><th>Structure used</th><th class="c">Best</th><th class="c">Worst</th><th>Reason</th></tr>
+  <tr><td>Add student</td><td>Array</td><td class="c">O(1)</td><td class="c">O(n)</td><td>insert is O(1), but the duplicate check is a search</td></tr>
+  <tr><td>Search</td><td>Array + String</td><td class="c">O(1)</td><td class="c">O(n)</td><td>linear search, whole array in the worst case</td></tr>
+  <tr><td>Delete student</td><td>Array + Stack</td><td class="c">O(1)</td><td class="c">O(n)</td><td>shifting the elements after the deleted one</td></tr>
+  <tr><td>Push / Pop</td><td>Stack</td><td class="c">O(1)</td><td class="c">O(1)</td><td>only the <code>top_</code> index changes</td></tr>
+  <tr><td>Undo delete</td><td>Stack + Array</td><td class="c">O(1)</td><td class="c">O(n)</td><td>O(1) pop, then a re-insert that checks duplicates</td></tr>
+  <tr><td>Sort by name</td><td>Array + String</td><td class="c">O(n)</td><td class="c">O(n&sup2;)</td><td>bubble sort with nested loops</td></tr>
+</table>
+<p>Space complexity is <b>O(n)</b>: one array of 100 records plus one stack of 100 records, allocated once.</p>
+
+<h2>8. Limitations and Future Scope</h2>
+<table>
+  <tr><th>Current limitation</th><th>How it could be improved</th></tr>
+  <tr><td>Records are lost when the program stops (kept in memory only)</td><td>Save to a text or CSV file using file handling</td></tr>
+  <tr><td>Fixed capacity of 100 students</td><td>Use a dynamic array that doubles in size, or a linked list</td></tr>
+  <tr><td>Search is a linear scan, O(n)</td><td>Keep the array sorted by roll number and use binary search, O(log n)</td></tr>
+  <tr><td>Bubble sort is O(n&sup2;)</td><td>Use merge sort or quick sort, O(n log n)</td></tr>
+  <tr><td>Undo only covers deletion</td><td>Push every action onto the stack to undo edits as well</td></tr>
+  <tr><td>The server handles one request at a time</td><td>Handle each connection in a separate thread</td></tr>
+  <tr><td>No fee, attendance or room allocation records</td><td>Add a queue for the room waiting list &mdash; naturally FIFO</td></tr>
+</table>
+
+<h2 class="pb">9. Questions a Teacher May Ask</h2>
+
+<div class="qa">
+  <div class="q">Q1. Why did you use a stack here? Why not an array or a queue?</div>
+  <div class="a">A. The stack stores deleted records for the undo feature. Undo must reverse the
+  <b>most recent</b> action first, which is Last In First Out, and that is exactly what a stack
+  provides. A queue would be wrong because it is First In First Out, so it would undo the
+  <i>oldest</i> deletion first. A plain array would work only if I searched it for the newest
+  entry every time, which is extra work the stack does automatically through <code>top_</code>.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q2. Why did you not use <code>std::vector</code> or <code>std::stack</code>?</div>
+  <div class="a">A. The purpose of the project is to demonstrate the data structures, so both are
+  implemented by hand &mdash; the array with a <code>count_</code> variable and the stack with a
+  <code>top_</code> index. Using the library containers would have hidden the exact operations,
+  which are the point of the exercise.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q3. What happens when you delete a student from the middle of the array?</div>
+  <div class="a">A. The position is found by linear search, the record is pushed onto the stack,
+  and then every element after that position is shifted one place to the left so no empty gap
+  remains. Finally <code>count_</code> is decreased by one. In the worst case &mdash; deleting the
+  first element &mdash; n-1 records must be shifted, so deletion is O(n).</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q4. What are stack overflow and stack underflow, and how did you handle them?</div>
+  <div class="a">A. Overflow is pushing onto a full stack; underflow is popping from an empty one.
+  <code>push()</code> checks <code>top_ &lt; MAX-1</code> before adding, and <code>undoDelete()</code>
+  calls <code>stackEmpty()</code> (which tests <code>top_ == -1</code>) before popping. Both checks
+  come <b>before</b> the array is touched, so the program never accesses memory outside the array.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q5. Why does <code>top_</code> start at -1 instead of 0?</div>
+  <div class="a">A. <code>top_</code> holds the index of the current top element. When the stack is
+  empty there is no such element, so it must be an invalid index, and -1 is the value just before
+  the first valid index 0. This also makes the size formula simple: the number of elements is
+  always <code>top_ + 1</code>.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q6. How does the search work if I type small letters but the data has capitals?</div>
+  <div class="a">A. Both the search word and the stored text are first converted to small letters
+  by <code>toLower()</code>, which adds 32 to the ASCII value of any character between 'A' and 'Z'
+  (because 'a' is 97 and 'A' is 65). The comparison is then done using <code>find()</code>, so
+  <code>bca</code> matches <code>BCA</code>. The stored data itself is never changed &mdash; only the
+  copies used for comparison.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q7. How are two names compared for sorting?</div>
+  <div class="a">A. <code>std::string</code> supports the <code>&gt;</code> operator, which compares
+  lexicographically: it compares the first characters, and if they are equal moves to the next,
+  like a dictionary. The bubble sort in <code>sortByName()</code> uses this to swap records that
+  are out of order, repeating until the whole array is sorted.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q8. Which data structure would you add next, and why?</div>
+  <div class="a">A. A <b>queue</b> for the room waiting list. Students should get rooms in the order
+  they applied, which is First In First Out, so a queue fits naturally &mdash; just as undo fits a stack.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q9. Is there JavaScript in the project?</div>
+  <div class="a">A. No. The interface is only HTML and CSS. Every action is a normal HTML form or
+  link, and the C++ program does all the processing and generates the page. This keeps all the
+  logic in C++ where the data structures are.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Q10. Where is the data stored, and what happens when the program closes?</div>
+  <div class="a">A. Everything is in memory, inside the array and the stack. When the program stops,
+  the data is lost. Adding file handling to save and load records is the first planned improvement.</div>
+</div>
+
+<h2>10. Conclusion</h2>
+<p>
+The project implements a working hostel student management system in which each data structure
+was chosen for a clear reason: an <b>array</b> for indexed storage and ordered display, a
+<b>stack</b> for the undo feature because undo is inherently LIFO, and <b>strings</b> with
+character level operations for case insensitive searching and alphabetical sorting. All three are
+implemented from first principles rather than taken from a library.
+</p>
+<p>
+The same logic is exposed through two interfaces &mdash; a console menu and a browser page &mdash;
+which demonstrates that the data structure code is independent of how it is presented. Because
+all the logic sits in a single header file, <code>src/hostel.h</code>, it can be included directly
+in a larger system later.
+</p>
+
+<footer>DS Project 2 &mdash; Hostel Student Management System &mdash; Array, Stack and String in C++</footer>
+
+</body>
+</html>

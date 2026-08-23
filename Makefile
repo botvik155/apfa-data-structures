@@ -18,3 +18,8 @@ cli: hostel
 
 clean:
 	rm -f hostel server
+
+# regenerate the PDF report from docs/report.html (needs google-chrome)
+report:
+	google-chrome --headless --disable-gpu --no-pdf-header-footer \
+	  --print-to-pdf=docs/DS_Project_2_Report.pdf docs/report.html

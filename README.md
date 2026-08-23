@@ -25,12 +25,23 @@ ds_project_2/
 ├── web/
 │   ├── index.html     the UI (plain HTML, no JavaScript)
 │   └── style.css      the styling
+├── docs/
+│   ├── DS_Project_2_Report.pdf   full project report (for submission)
+│   └── report.html               source of the report
 ├── Makefile
 └── README.md
 ```
 
 All the logic lives in one small header, `src/hostel.h`, so it is easy to read
 and easy to reuse in a bigger project later.
+
+## Project report
+
+A complete write-up is in **[docs/DS_Project_2_Report.pdf](docs/DS_Project_2_Report.pdf)** —
+objective, why each data structure was chosen, code walkthrough, how the web UI works,
+test results, time complexity, limitations, and a set of likely viva questions with answers.
+
+Regenerate it after editing `docs/report.html` with `make report`.
 
 ## How to run
 

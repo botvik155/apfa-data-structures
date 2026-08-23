@@ -45,7 +45,7 @@ test results, time complexity, limitations, and a set of likely viva questions w
 
 Regenerate it after editing `docs/report.html` with `make report`.
 
-A 8-slide presentation is in **[docs/DS_Project_2_Presentation.pptx](docs/DS_Project_2_Presentation.pptx)**,
+An 8-slide presentation is in **[docs/DS_Project_2_Presentation.pptx](docs/DS_Project_2_Presentation.pptx)**,
 built by `docs/make_ppt.py` (`make ppt`, needs `python-pptx`).
 
 ## How to run

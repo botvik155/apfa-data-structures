@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hostel Student Management</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <h1>Hostel Student Management System</h1>
+  <p class="sub">Data structures used: Array &nbsp;|&nbsp; Stack &nbsp;|&nbsp; String</p>
+
+  <!-- ============ ADD STUDENT (array insert) ============ -->
+  <div class="box">
+    <h2>Add Student</h2>
+    <form action="/add" method="post">
+      <input type="number" name="roll"   placeholder="Roll number" required>
+      <input type="text"   name="name"   placeholder="Name" required>
+      <input type="text"   name="course" placeholder="Course">
+      <input type="number" name="room"   placeholder="Room number">
+      <button type="submit">Add</button>
+    </form>
+  </div>
+
+  <!-- ============ SEARCH (string search) ============ -->
+  <div class="box">
+    <h2>Search</h2>
+    <form action="/" method="get">
+      <input type="text" name="q" placeholder="name / course / roll" value="{{SEARCH}}">
+      <button type="submit">Search</button>
+      <a class="btn" href="/">Clear</a>
+      <a class="btn" href="/sort">Sort by name</a>
+    </form>
+  </div>
+
+  <!-- ============ THE ARRAY ============ -->
+  <div class="box">
+    <h2>Students <span class="count">array size = {{COUNT}}</span></h2>
+    <table>
+      <tr>
+        <th>Roll</th><th>Name</th><th>Course</th><th>Room</th><th></th>
+      </tr>
+      {{ROWS}}
+    </table>
+  </div>
+
+  <!-- ============ THE STACK ============ -->
+  <div class="box">
+    <h2>Deleted Students (Stack)</h2>
+    <ul class="stack">
+      {{STACK}}
+    </ul>
+    <a class="btn undo" href="/undo">Undo last delete (pop)</a>
+  </div>
+
+  <p class="foot">DS Project 2 &mdash; C++ backend, HTML + CSS frontend</p>
+
+</body>
+</html>

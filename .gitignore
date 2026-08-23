@@ -1,0 +1,5 @@
+# compiled programs
+hostel
+server
+*.o
+*.out

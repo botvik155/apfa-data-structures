@@ -23,3 +23,7 @@ clean:
 report:
 	google-chrome --headless --disable-gpu --no-pdf-header-footer \
 	  --print-to-pdf=docs/DS_Project_2_Report.pdf docs/report.html
+
+# rebuild the presentation (needs: pip install python-pptx)
+ppt:
+	python3 docs/make_ppt.py
